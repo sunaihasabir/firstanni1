@@ -1,0 +1,3 @@
+Put your videos here (MP4, H.264).
+Names used by the site: video-01.mp4, video-02.mp4, video-03.mp4
+Add more in js/config.js.

@@ -1,0 +1,2 @@
+Put family photos here: family-01.jpg … family-06.jpg
+(add more or change captions in js/config.js → familyFolder)

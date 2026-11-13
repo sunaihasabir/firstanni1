@@ -1,0 +1,14 @@
+{
+  "name": "365-days-a-million-memories",
+  "version": "2.0.0",
+  "private": true,
+  "description": "First anniversary website for Sharoz — made with love by Sunaiha",
+  "type": "module",
+  "scripts": {
+    "start": "node dev-server.mjs",
+    "deploy": "netlify deploy --prod"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^10.7.0"
+  }
+}

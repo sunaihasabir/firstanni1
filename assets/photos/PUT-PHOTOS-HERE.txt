@@ -1,0 +1,5 @@
+Put your photos here (JPG/PNG/WEBP).
+Names used by the site: couple-main.jpg, couple-final.jpg, memory-01.jpg … memory-10.jpg,
+fav-01.jpg … fav-04.jpg, moment-01.jpg … moment-04.jpg, hero-01.jpg … hero-03.jpg,
+video-01-poster.jpg … video-03-poster.jpg (optional).
+Change or add names in js/config.js.

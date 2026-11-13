@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Lock Our Photos 🔒</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --gold: #f5c66b; --rose: #ff5c8a; --bg: #12081f; --card: #1f0f33; --text: #f6eefc; --muted: #cbb9dc; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, #3a1460, var(--bg) 60%); color: var(--text); font-family: Quicksand, system-ui, sans-serif; padding: 32px 16px 60px; }
+    main { max-width: 760px; margin: 0 auto; }
+    h1 { font-family: "Great Vibes", cursive; font-weight: 400; font-size: clamp(2.6rem, 8vw, 3.6rem); color: var(--gold); text-align: center; margin: 0; }
+    .lead { text-align: center; color: var(--muted); margin: 6px 0 28px; }
+    .card { background: var(--card); border: 1px solid rgba(245,198,107,.25); border-radius: 20px; padding: 22px; margin-bottom: 18px; }
+    .card h2 { margin: 0 0 10px; font-size: 1.1rem; color: var(--gold); }
+    .step { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--gold); color: #3a1d06; font-weight: 700; margin-right: 8px; font-size: .9rem; }
+    .drop { display: grid; place-items: center; gap: 6px; padding: 30px 16px; border: 2px dashed rgba(245,198,107,.5); border-radius: 16px; text-align: center; cursor: pointer; transition: background .3s; }
+    .drop:hover, .drop.over { background: rgba(245,198,107,.08); }
+    .drop input { display: none; }
+    .list { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 14px; }
+    .item { background: #2a1644; border-radius: 12px; overflow: hidden; position: relative; }
+    .item img, .item video { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: #000; }
+    .item input { width: 100%; border: 0; padding: 8px; background: #2a1644; color: var(--text); font: inherit; font-size: .85rem; }
+    .item button { position: absolute; top: 6px; right: 6px; width: 28px; height: 28px; border-radius: 50%; border: 0; background: rgba(0,0,0,.6); color: #fff; cursor: pointer; }
+    label { display: block; font-weight: 600; margin: 10px 0 4px; }
+    input[type=password], input[type=text].pw { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,.2); background: #2a1644; color: var(--text); font: inherit; font-size: 1rem; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 999px; border: 0; font: inherit; font-weight: 700; cursor: pointer; background: linear-gradient(135deg, #ffe3a3, #f5c66b 45%, #d79b36); color: #3a1d06; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .note { font-size: .9rem; color: var(--muted); }
+    .warn { color: #ffb3c7; }
+    .ok { color: #8ef0b5; }
+    .status { margin-top: 12px; min-height: 1.4em; }
+    code { background: rgba(255,255,255,.1); padding: 2px 6px; border-radius: 6px; }
+    .center { text-align: center; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Lock Our Photos 🔒</h1>
+  <p class="lead">This page turns your romantic photos into one locked file. Everything happens on your own device; nothing is uploaded anywhere.</p>
+
+  <section class="card">
+    <h2><span class="step">1</span>Choose your romantic photos (and short videos)</h2>
+    <label class="drop" id="drop">
+      <input type="file" id="files" accept="image/*,video/mp4,video/webm,video/quicktime" multiple />
+      <span style="font-size:2rem">📸</span>
+      <b>Tap to choose photos, or drag them here</b>
+      <span class="note">Photos are resized to a sharp 1800px so the site stays fast. Your faces are never changed.</span>
+    </label>
+    <div class="list" id="list"></div>
+    <p class="note" id="sizeNote"></p>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">2</span>Choose a password</h2>
+    <label for="pw1">Password</label>
+    <input type="password" id="pw1" autocomplete="new-password" placeholder="Something only you two know" />
+    <label for="pw2">Type it again</label>
+    <input type="password" id="pw2" autocomplete="new-password" />
+    <p class="note">⚠️ If you forget this password, the folder cannot be opened, not even by you. You would simply lock the photos again with a new password.</p>
+  </section>
+
+  <section class="card center">
+    <h2><span class="step">3</span>Lock and download</h2>
+    <button class="btn" id="lockBtn" disabled>🔒 Lock my photos</button>
+    <p class="status" id="status"></p>
+    <p class="note">You'll get a file called <code>vault.enc</code>. Put it in the website folder at <code>assets/private/vault.enc</code> (replace the old one if there is one).<br />Keep your original photos on your phone or computer, <b>not</b> in the website folder.</p>
+  </section>
+</main>
+
+<script src="../js/vault.js"></script>
+<script>
+(function () {
+  const items = [];
+  const $ = (s) => document.querySelector(s);
+  const list = $("#list"), status = $("#status"), lockBtn = $("#lockBtn");
+
+  function update() {
+    const total = items.reduce((n, it) => n + (it.estimate || 0), 0);
+    $("#sizeNote").textContent = items.length ? `${items.length} item(s) selected · about ${(total / 1048576).toFixed(1)} MB before locking` : "";
+    if (total > 80 * 1048576) $("#sizeNote").innerHTML += ' <span class="warn">— that\'s big; the folder may open slowly on phones.</span>';
+    lockBtn.disabled = !items.length || !$("#pw1").value;
+  }
+
+  function add(files) {
+    [...files].forEach((file) => {
+      const isVideo = file.type.startsWith("video/");
+      if (!isVideo && !file.type.startsWith("image/")) return;
+      const it = { file, type: isVideo ? "video" : "image", caption: "", estimate: isVideo ? file.size : Math.min(file.size, 900000) };
+      items.push(it);
+      const box = document.createElement("div"); box.className = "item";
+      const url = URL.createObjectURL(file);
+      box.innerHTML = isVideo ? `<video src="${url}" muted playsinline></video>` : `<img src="${url}" alt="" />`;
+      const cap = document.createElement("input"); cap.placeholder = "Caption (optional)";
+      cap.addEventListener("input", () => (it.caption = cap.value));
+      const rm = document.createElement("button"); rm.textContent = "×"; rm.title = "Remove";
+      rm.addEventListener("click", () => { items.splice(items.indexOf(it), 1); box.remove(); URL.revokeObjectURL(url); update(); });
+      box.append(cap, rm); list.appendChild(box);
+    });
+    update();
+  }
+
+  $("#files").addEventListener("change", (e) => { add(e.target.files); e.target.value = ""; });
+  const drop = $("#drop");
+  ["dragenter", "dragover"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", (e) => add(e.dataTransfer.files));
+  $("#pw1").addEventListener("input", update);
+
+  async function resizeImage(file) {
+    try {
+      const bmp = await createImageBitmap(file, { imageOrientation: "from-image" });
+      const max = 1800, k = Math.min(1, max / Math.max(bmp.width, bmp.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+      c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      const blob = await new Promise((r) => c.toBlob(r, "image/jpeg", 0.88));
+      return { bytes: new Uint8Array(await blob.arrayBuffer()), mime: "image/jpeg" };
+    } catch (e) {
+      // unusual format (e.g. HEIC on some browsers) → keep the original file
+      return { bytes: new Uint8Array(await file.arrayBuffer()), mime: file.type || "image/jpeg" };
+    }
+  }
+
+  lockBtn.addEventListener("click", async () => {
+    const pw = $("#pw1").value;
+    if (pw !== $("#pw2").value) { status.innerHTML = '<span class="warn">The two passwords don\'t match. Please type them again.</span>'; return; }
+    if (pw.length < 4) { status.innerHTML = '<span class="warn">Please use at least 4 characters.</span>'; return; }
+    if (!Vault.hasCrypto()) { status.innerHTML = '<span class="warn">Your browser blocks encryption on this page. Open it through a local server (see README) or from your online website.</span>'; return; }
+    lockBtn.disabled = true;
+    try {
+      const packed = [];
+      for (let i = 0; i < items.length; i++) {
+        status.textContent = `Preparing ${i + 1} of ${items.length}…`;
+        const it = items[i];
+        const data = it.type === "image" ? await resizeImage(it.file) : { bytes: new Uint8Array(await it.file.arrayBuffer()), mime: it.file.type || "video/mp4" };
+        packed.push({ type: it.type, caption: it.caption.trim(), ...data });
+      }
+      status.textContent = "Locking with your password…";
+      const out = await Vault.lock(packed, pw);
+      // self-check: make sure it opens again with the same password
+      const check = await Vault.unlock(out.buffer, pw);
+      check.forEach((c) => URL.revokeObjectURL(c.url));
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([out], { type: "application/octet-stream" }));
+      a.download = "vault.enc"; document.body.appendChild(a); a.click(); a.remove();
+      status.innerHTML = `<span class="ok">✓ Locked ${check.length} item(s) into vault.enc (${(out.length / 1048576).toFixed(1)} MB). It has been downloaded. Now put it in <code>assets/private/</code>.</span>`;
+    } catch (e) {
+      status.innerHTML = '<span class="warn">Something went wrong: ' + (e.message || e) + "</span>";
+    }
+    lockBtn.disabled = false;
+  });
+})();
+</script>
+</body>
+</html>

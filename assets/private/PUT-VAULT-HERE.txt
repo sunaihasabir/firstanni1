@@ -1,0 +1,2 @@
+Put vault.enc here (made with tools/lock-photos.html).
+Never put normal romantic photos in this folder — only the locked vault.enc file.

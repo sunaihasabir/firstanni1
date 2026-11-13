@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>365 Days, A Million Memories ❤️</title>
+  <meta name="description" content="To My Hubby G — One Year of Love, Laughter, Fights, Prayers & Beautiful Memories. Made with love by Sunaiha." />
+  <meta name="theme-color" content="#07040f" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Dancing+Script:wght@500;600;700&family=Great+Vibes&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="is-locked">
+
+  <!-- ═════════════════ LOADING SCREEN ═════════════════ -->
+  <div id="loader" aria-live="polite">
+    <div class="loader-heart">❤</div>
+    <p class="loader-text">Gathering 365 days of memories…</p>
+    <div class="loader-bar"><span id="loaderFill"></span></div>
+  </div>
+
+  <!-- ═════════════════ 1. OPENING EXPERIENCE ═════════════════ -->
+  <section id="opening" aria-label="Opening surprise">
+    <canvas id="openingCanvas"></canvas>
+    <div class="petal-layer" id="openingPetals"></div>
+    <!-- CSS gift box: only shown if the device has no 3D (WebGL) support -->
+    <div class="css-gift" aria-hidden="true"><span class="cg-lid"></span><span class="cg-box"></span><span class="cg-heart">❤</span></div>
+    <div class="opening-content">
+      <h1 class="opening-title"><span class="script">Hey, My Hubby <span class="nowrap">G <span class="beat">❤️</span></span></span></h1>
+      <p class="opening-sub">I made something special for the most special person in my life.</p>
+      <button id="openSurpriseBtn" class="btn btn-gold btn-glow">Open Your Surprise, My King 🎁</button>
+      <p class="opening-hint">🔊 Turn your sound on</p>
+    </div>
+    <div class="opening-flash" id="openingFlash"></div>
+  </section>
+
+  <!-- ═════════════════ GLOBAL UI ═════════════════ -->
+  <div id="scrollProgress"><span></span></div>
+
+  <nav id="mainNav" aria-label="Main navigation">
+    <a href="#hero" class="nav-brand"><span class="script">S</span>&nbsp;❤&nbsp;<span class="script">S</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="#drama">Drama King</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#folders">Folders</a></li>
+      <li><a href="#letter">Letter</a></li>
+      <li><a href="#quotes">Quotes</a></li>
+      <li><a href="#faith">God's Gift</a></li>
+      <li><a href="#mama">Mama</a></li>
+      <li><a href="#beach">Next Chapter</a></li>
+      <li><a href="#wishes">Messages</a></li>
+      <li><a href="#final">Surprise</a></li>
+    </ul>
+  </nav>
+
+  <div class="floating-controls" aria-label="Sound and effects controls">
+    <button id="musicToggle" class="fc-btn" title="Music on / off" aria-label="Toggle music">
+      <span class="fc-icon">🎵</span><span class="eq"><i></i><i></i><i></i></span>
+    </button>
+    <button id="sfxToggle" class="fc-btn" title="Sound effects on / off" aria-label="Toggle sound effects">🔔</button>
+    <button id="fireworksBtn" class="fc-btn" title="Fireworks!" aria-label="Launch fireworks">🎆</button>
+    <button id="replayBtn" class="fc-btn" title="Replay the opening surprise" aria-label="Replay opening">🎁</button>
+    <button id="fcMore" class="fc-btn fc-more" title="More" aria-label="Show more buttons" aria-expanded="false">✨</button>
+  </div>
+
+  <canvas id="fxCanvas" aria-hidden="true"></canvas>
+  <div id="heartsLayer" aria-hidden="true"></div>
+
+  <main id="site">
+
+    <!-- ═════════════════ 2. HERO ═════════════════ -->
+    <section id="hero" class="section hero">
+      <!-- Background video (change it in js/config.js → backgroundVideo) -->
+      <video class="bg-video" muted loop playsinline autoplay preload="auto" poster="assets/photos/background-poster.jpg" aria-hidden="true"><source src="assets/videos/background.mp4" type="video/mp4" /></video>
+      <div class="bg-video-shade" aria-hidden="true"></div>
+      <canvas id="heroCanvas" class="section-canvas"></canvas>
+      <div class="hero-sparkles" aria-hidden="true"></div>
+      <div class="hero-grid">
+        <div class="hero-text">
+          <p class="hero-dates reveal-up">14 November 2025 <span class="dash">—</span> 14 November 2026</p>
+          <h1 class="hero-title gold-text">
+            <span class="ht-line">365 Days,</span>
+            <span class="ht-line">A Million Memories</span>
+          </h1>
+          <p class="hero-alt script reveal-up">To My Hubby G — God Wrote Our Story</p>
+          <p class="hero-lead reveal-up">One year of loving you, supporting each other, surviving difficult days, sharing laughter, and thanking God for bringing us together.</p>
+          <p class="hero-wish reveal-up">Happy First Anniversary of Togetherness, My Hubby G ❤️</p>
+
+          <div class="counter reveal-up" id="counter">
+            <div class="counter-box"><b data-unit="days">0</b><span>Days</span></div>
+            <div class="counter-box"><b data-unit="hours">0</b><span>Hours</span></div>
+            <div class="counter-box"><b data-unit="minutes">0</b><span>Minutes</span></div>
+            <div class="counter-box"><b data-unit="seconds">0</b><span>Seconds</span></div>
+          </div>
+          <p class="counter-note" id="counterNote">of loving you</p>
+
+          <a href="#story" class="btn btn-outline reveal-up">Let's Relive Our Story ↓</a>
+        </div>
+
+        <div class="hero-photo reveal-up">
+          <div class="magic-frame">
+            <div class="frame-glow"></div>
+            <div class="media-slot" data-src-key="heroPhoto"></div>
+            <span class="frame-caption script">Us ❤️</span>
+          </div>
+        </div>
+      </div>
+      <button class="secret-heart" id="secretHeart" title="Hmm… what's this?" aria-label="A tiny secret">❤</button>
+      <div class="scroll-cue" aria-hidden="true"><span></span></div>
+    </section>
+
+    <!-- ═════════════════ 3. OUR STORY ═════════════════ -->
+    <section id="story" class="section story">
+      <header class="section-head">
+        <p class="eyebrow">Chapter One</p>
+        <h2 class="section-title gold-text">How God Brought Us Together</h2>
+        <p class="section-sub">Thirteen little moments that became the biggest blessing of my life.</p>
+      </header>
+      <div class="timeline" id="timeline">
+        <div class="timeline-line"><span class="timeline-fill"></span></div>
+        <!-- memories are rendered by js/main.js from the STORY array -->
+      </div>
+    </section>
+
+    <!-- ═════════════════ 4. DRAMA KING ═════════════════ -->
+    <section id="drama" class="section drama">
+      <header class="section-head">
+        <p class="eyebrow">Official Character Profile</p>
+        <h2 class="section-title">Meet My Personal Drama King <span class="wiggle">😂</span><span class="wiggle d2">👑</span></h2>
+        <p class="section-sub">One extremely lovable human. Some very funny side effects.</p>
+      </header>
+      <div class="stat-cards" id="statCards"><!-- rendered by JS --></div>
+      <p class="growth-note">🤍 Real talk: we're both still learning — patience, calm words, and respect, even on the hard days. Growing together is the best part of our story.</p>
+
+      <div class="sayings">
+        <h3 class="sub-title">Things My Hero Says <span class="wiggle">😂</span></h3>
+        <div class="bubbles" id="bubbles"><!-- rendered by JS --></div>
+      </div>
+    </section>
+
+    <!-- ═════════════════ 5. GALLERY ═════════════════ -->
+    <section id="gallery" class="section gallery">
+      <header class="section-head">
+        <p class="eyebrow">Our Scrapbook</p>
+        <h2 class="section-title gold-text">Our Real Photos &amp; Videos</h2>
+        <p class="section-sub">Every picture is a moment I thank God for.</p>
+      </header>
+      <div class="gallery-tabs" id="galleryTabs" role="tablist"></div>
+      <div class="polaroid-wall" id="polaroidWall"></div>
+      <div class="gallery-actions">
+        <button class="btn btn-gold" id="slideshowBtn">▶ Play Cinematic Slideshow</button>
+      </div>
+    </section>
+
+    <!-- ═════════════════ 5b. OUR FOLDERS (family + locked) ═════════════════ -->
+    <section id="folders" class="section folders">
+      <header class="section-head">
+        <p class="eyebrow">Two special folders</p>
+        <h2 class="section-title"><span class="gold-text">Our Folders</span> 📁</h2>
+        <p class="section-sub">One for our beautiful families, and one only for us two.</p>
+      </header>
+      <div class="folder-row">
+        <button class="folder family" id="familyFolderBtn" aria-label="Open the family photos folder">
+          <span class="folder-back"></span>
+          <span class="folder-papers"><i></i><i></i><i></i></span>
+          <span class="folder-front"><span class="folder-emoji">🏡</span></span>
+          <span class="folder-label">Our Beautiful Families</span>
+          <span class="folder-sub">Mama · Papa · Fharukh · Sharukh · everyone ❤️</span>
+        </button>
+        <button class="folder locked" id="lockedFolderBtn" aria-label="Open the locked romantic folder (needs password)">
+          <span class="folder-back"></span>
+          <span class="folder-papers"><i></i><i></i><i></i></span>
+          <span class="folder-front"><span class="padlock" aria-hidden="true"><span class="shackle"></span><span class="lock-body">❤</span></span></span>
+          <span class="folder-label">Only For Us 🔒</span>
+          <span class="folder-sub">Password needed — no peeking! 😜</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ═════════════════ 6. LOVE LETTER ═════════════════ -->
+    <section id="letter" class="section letter-section">
+      <header class="section-head">
+        <p class="eyebrow">Sealed with love</p>
+        <h2 class="section-title"><span class="gold-text">A Letter For You</span> 💌</h2>
+        <p class="section-sub">Tap the envelope, my king.</p>
+      </header>
+      <div class="envelope-stage">
+        <button class="envelope" id="envelope" aria-label="Open the love letter">
+          <span class="env-back"></span>
+          <span class="env-letter-peek"><span class="script">To My Hubby G</span></span>
+          <span class="env-front"></span>
+          <span class="env-flap"></span>
+          <span class="env-seal">❤</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ═════════════════ 7. QUOTES ═════════════════ -->
+    <section id="quotes" class="section quotes">
+      <div class="quote-bg" id="quoteBg"></div>
+      <header class="section-head">
+        <p class="eyebrow">Words my heart keeps saying</p>
+        <h2 class="section-title"><span class="gold-text">Our Love Quotes</span> ✨</h2>
+      </header>
+      <div class="quote-stage" id="quoteStage" aria-live="polite"></div>
+      <div class="quote-controls">
+        <button class="q-arrow" id="qPrev" aria-label="Previous quote">‹</button>
+        <div class="q-dots" id="qDots"></div>
+        <button class="q-arrow" id="qNext" aria-label="Next quote">›</button>
+      </div>
+    </section>
+
+    <!-- ═════════════════ 8. GOD'S BEAUTIFUL GIFT ═════════════════ -->
+    <section id="faith" class="section faith">
+      <div class="clouds" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="light-rays" aria-hidden="true"></div>
+      <div class="light-motes" id="lightMotes" aria-hidden="true"></div>
+      <header class="section-head">
+        <p class="eyebrow dark">A gift from heaven</p>
+        <h2 class="section-title heavenly">God's Beautiful Gift 🙏</h2>
+      </header>
+      <div class="open-bible" aria-hidden="true">
+        <div class="page left"><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="page right"><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="bible-glow"></div>
+      </div>
+      <div class="faith-pics">
+        <figure class="faith-pic reveal-up"><img src="assets/photos/faith-01.jpg" alt="An open Bible with wedding rings" loading="lazy" /><figcaption class="script">One day, with God's blessing 💍</figcaption></figure>
+        <figure class="faith-pic reveal-up"><img src="assets/photos/faith-02.jpg" alt="Love is patient, love is kind — 1 Corinthians 13" loading="lazy" /><figcaption class="script">Love never fails ❤️</figcaption></figure>
+      </div>
+      <div class="verse-grid" id="verseGrid"><!-- rendered by JS --></div>
+
+      <div class="prayer-card reveal-up">
+        <h3 class="script">A Prayer For Us</h3>
+        <p>Thank You, God, for bringing us together. Thank You for holding us through every difficult moment. Thank You for giving me someone who supports me, respects me, cares for me, and makes me feel loved.</p>
+        <p>Please bless Sharoz, protect him, guide his steps, fulfill his beautiful dreams, and give him peace, happiness, and success.</p>
+        <p>Help us grow in patience, kindness, understanding, forgiveness, and love. Teach us to communicate gently and treat each other with respect, even during difficult moments.</p>
+        <p>May You always remain the center of our story. <b>Amen.</b></p>
+      </div>
+    </section>
+
+    <!-- ═════════════════ 9. MAMA ═════════════════ -->
+    <section id="mama" class="section mama">
+      <div class="mama-lights" aria-hidden="true"></div>
+      <div class="mama-flowers" id="mamaFlowers" aria-hidden="true"></div>
+      <div class="mama-card reveal-up">
+        <div class="mama-icon">🌷</div>
+        <h2 class="section-title"><span class="gold-text">God Gave Our Story a Beautiful Blessing — Mama</span> ❤️</h2>
+        <p>Har rishta mushkil waqt se guzarta hai. Hum bhi kabhi fight karte hain, kabhi baat bigar jati hai. Lekin ek blessing hamesha humein wapas jorne aati hai — <b>Mama</b>.</p>
+        <p>Unki duaon, unke pyar aur unki samajhdari ne hamare rishte ko dobara mazboot kiya.</p>
+        <p class="mama-thanks script">Thank You, God, for blessing us with someone whose love and wisdom bring peace into our lives.</p>
+      </div>
+    </section>
+
+    <!-- ═════════════════ 10. BEACH — NEXT CHAPTER ═════════════════ -->
+    <section id="beach" class="section beach">
+      <div class="beach-sticky">
+        <canvas id="beachCanvas"></canvas>
+        <div class="beach-overlay">
+          <h2 class="beach-title script" data-beach-step="0">Our Story Is Only Getting Started…</h2>
+          <p class="beach-line" data-beach-step="1">One year down, a lifetime of beautiful memories to go.</p>
+          <p class="beach-line" data-beach-step="2">More laughter. More adventures. More understanding. More love. More prayers answered.</p>
+          <p class="beach-line big" data-beach-step="3">One day, our beautiful wedding chapter will begin. ❤️</p>
+          <div class="beach-phase2">
+          <div class="beach-verses" data-beach-step="4">
+            <p>“With God, all things are possible.” <span>— Matthew 19:26</span></p>
+            <p>“Commit your way to the Lord; trust in him and he will do this.” <span>— Psalm 37:5</span></p>
+          </div>
+          <p class="beach-promise" data-beach-step="5" id="beachPromise">My prayer is not just for a beautiful love story, but for a love that brings peace, kindness, respect, faith, and happiness to both of us.</p>
+          <a href="#wishes" class="btn btn-outline small beach-cta" data-beach-step="6">🏮 Send us your love</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════════════ 10b. LANTERN MESSAGE WALL ═════════════════ -->
+    <section id="wishes" class="section wishes">
+      <div class="wish-stars" aria-hidden="true"></div>
+      <div class="wish-sea" aria-hidden="true"></div>
+      <header class="section-head">
+        <p class="eyebrow">On our moonlit beach</p>
+        <h2 class="section-title"><span class="gold-text">Send Us Your Love</span> 🏮</h2>
+        <p class="section-sub">Write a little wish for Sharoz &amp; Sunaiha. It will float on our lantern wall for everyone to see.</p>
+      </header>
+
+      <form class="wish-form" id="wishForm" autocomplete="off">
+        <input type="text" id="wishName" maxlength="40" placeholder="Your name" aria-label="Your name" />
+        <textarea id="wishText" maxlength="500" rows="3" placeholder="Write your message, dua or wish for us… 💌" aria-label="Your message" required></textarea>
+        <!-- leave this hidden field empty (it catches spam bots) -->
+        <input type="text" id="wishWebsite" class="hp" tabindex="-1" aria-hidden="true" />
+        <div class="wish-row">
+          <span class="wish-count" id="wishCount">0 / 500</span>
+          <button type="submit" class="btn btn-gold" id="wishBtn">Release my lantern 🏮</button>
+        </div>
+        <p class="wish-status" id="wishStatus" role="status"></p>
+      </form>
+
+      <div class="wish-wall" id="wishWall" aria-live="polite"></div>
+    </section>
+
+    <!-- ═════════════════ 11. FINAL SURPRISE ═════════════════ -->
+    <section id="final" class="section final">
+      <!-- Background video (change it in js/config.js → backgroundVideo) -->
+      <video class="bg-video" muted loop playsinline autoplay preload="auto" poster="assets/photos/background-poster.jpg" aria-hidden="true"><source src="assets/videos/background.mp4" type="video/mp4" /></video>
+      <div class="bg-video-shade" aria-hidden="true"></div>
+      <canvas id="finalCanvas" class="section-canvas"></canvas>
+      <div class="final-inner">
+        <div class="final-photo reveal-up">
+          <div class="magic-frame round">
+            <div class="frame-glow"></div>
+            <div class="media-slot" data-src-key="finalPhoto"></div>
+          </div>
+        </div>
+        <h2 class="final-title reveal-up"><span class="gold-text">One Last Surprise, My King</span> ❤️</h2>
+        <button class="btn btn-gold btn-glow reveal-up" id="openHeartBtn">Open My Heart</button>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p class="script">Made with love by Sunaiha ❤️</p>
+      <p class="tiny">For Sharoz — my Hubby G · 14.11.2025 → forever</p>
+      <button class="btn btn-ghost small" id="footerReplay">🎁 Replay the opening surprise</button>
+    </footer>
+  </main>
+
+  <!-- ═════════════════ OVERLAYS ═════════════════ -->
+
+  <!-- Love letter -->
+  <div class="overlay letter-overlay" id="letterOverlay" role="dialog" aria-modal="true" aria-label="Love letter">
+    <div class="petal-layer" id="letterPetals"></div>
+    <div class="paper" id="paper">
+      <button class="overlay-close" data-close="letterOverlay" aria-label="Close letter">×</button>
+      <div class="paper-inner" id="letterText"><!-- written by JS --></div>
+    </div>
+  </div>
+
+  <!-- Album (family folder + locked folder) -->
+  <div class="overlay album-overlay" id="albumOverlay" role="dialog" aria-modal="true" aria-label="Photo folder">
+    <div class="album-panel">
+      <button class="overlay-close" data-close="albumOverlay" aria-label="Close">×</button>
+      <h3 class="album-title script" id="albumTitle"></h3>
+      <form class="vault-form" id="vaultForm" autocomplete="off">
+        <div class="vault-lock" id="vaultLock"><span class="shackle"></span><span class="lock-body">❤</span></div>
+        <p class="vault-msg" id="vaultMsg">This folder is locked. Only we know the password. 🤫</p>
+        <div class="vault-input">
+          <input type="password" id="vaultPw" placeholder="Enter password" aria-label="Password" autocomplete="current-password" />
+          <button type="submit" class="btn btn-gold" id="vaultBtn">Unlock 🔓</button>
+        </div>
+        <p class="vault-hint" id="vaultHint"></p>
+      </form>
+      <div class="album-grid" id="albumGrid"></div>
+      <div class="album-actions" id="albumActions"></div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="overlay lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="overlay-close" data-close="lightbox" aria-label="Close">×</button>
+    <button class="lb-nav prev" id="lbPrev" aria-label="Previous">‹</button>
+    <figure class="lb-figure">
+      <div class="lb-media" id="lbMedia"></div>
+      <figcaption id="lbCaption" class="script"></figcaption>
+    </figure>
+    <button class="lb-nav next" id="lbNext" aria-label="Next">›</button>
+    <div class="lb-progress" id="lbProgress"><span></span></div>
+  </div>
+
+  <!-- Secret message -->
+  <div class="overlay secret-overlay" id="secretOverlay" role="dialog" aria-modal="true" aria-label="Secret message">
+    <div class="secret-card">
+      <button class="overlay-close" data-close="secretOverlay" aria-label="Close">×</button>
+      <div class="secret-lock">🔓</div>
+      <p id="secretText"></p>
+    </div>
+  </div>
+
+  <!-- Final cinematic message -->
+  <div class="overlay final-overlay" id="finalOverlay" role="dialog" aria-modal="true" aria-label="Final message">
+    <div class="final-slides" id="finalSlides" aria-hidden="true"></div>
+    <div class="final-message" id="finalMessage">
+      <p>If I had to live this entire story again, I would still pray for you.</p>
+      <p>I would still choose you.</p>
+      <p>I would still fall in love with you.</p>
+      <p>And I would still thank God for bringing you into my life.</p>
+      <p class="fm-gold">Thank You, God, for this beautiful gift.</p>
+      <p class="fm-big script">Happy First Anniversary, My Hubby G.</p>
+      <p class="fm-date">14.11.2025 — Forever a special date in my heart.</p>
+      <p class="fm-love">I love you, Sharoz.</p>
+      <p class="fm-sign script">Forever your Sunaiha. ❤️</p>
+    </div>
+    <div class="final-actions" id="finalActions">
+      <button class="btn btn-gold" id="moreFireworks">🎆 More fireworks</button>
+      <button class="btn btn-ghost" data-close="finalOverlay">Back to our story</button>
+    </div>
+  </div>
+
+  <!-- Libraries (bundled locally so the site works offline and on Netlify) -->
+  <script src="js/vendor/three.min.js"></script>
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
+
+  <!-- Our code -->
+  <script src="js/vault.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/scenes.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
